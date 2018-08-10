@@ -18,12 +18,23 @@ These instructions are written with the assumption that the project will be inst
 
 ### Installation
 
+#### FFmpeg
+The standard repositories of your distribution may include FFmpeg 3.4+. If not, FFmpeg 3.4 can be built from source (more on that topic [here](https://github.com/FFmpeg/FFmpeg/blob/master/INSTALL.md)).
+
+For Ubuntu-based distributions, the PPA `ppa:jonathonf/ffmpeg-3` allows for simpler installation without the needing to build from source. The PPA can be added as follows:
+
+```
+$ sudo add-apt-repository ppa:jonathonf/ffmpeg-3
+[Press enter when prompted]
+$ sudo apt-get update
+```
+
 #### Downloading and Installing base dependencies
-The first on the install list (and most important) is CMake, followed by git and C++.
+The first on the install list (and most important) is CMake, followed by git, C++ and various multimedia packages.
 The following terminal command will get and install the necessary requirements
 
 ```
-$ sudo apt-get install cmake git build-essential libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+$ sudo apt-get install cmake git build-essential libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libavfilter-dev libx264-dev libx265-dev libvpx-dev liblzma-dev libbz2-dev libva-dev libvdpau-dev
 ```
 
 #### Downloading and Installing the OpenCV libraries
@@ -137,6 +148,17 @@ Example:
 track4k presenter.mkv presenter-crop.txt 1920 1080
 cropvid presenter.mkv tracked.mkv presenter-crop.txt
 ```
+
+Track4K can also output the cropping information in JSON format, when the output filename has a `.json` extension:
+
+Example:
+
+```
+track4k presenter.mkv presenter-crop.json 1920 1080
+```
+
+The JSON format includes a timestamp as well as a frame number. The timestamp is only guaranteed to be accurate when
+the source video has been recorded with a fixed frame rate. It may be incorrect for variable frame rate source videos.
 
 ### Memory Requirements
 The program reads a maximum of 29 frames into memory at a time. So a minimum of 4GB RAM should be sufficient.
